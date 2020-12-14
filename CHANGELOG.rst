@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Unreleased
+==================
+
+* Make search results foldable
+
 3.9.0 (2021-06-30)
 ==================
 

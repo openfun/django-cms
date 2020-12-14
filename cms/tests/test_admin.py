@@ -294,62 +294,6 @@ class AdminTestCase(AdminTestsBase):
             )
             self.assertEqual(response.status_code, 200)
 
-    def test_changelist_items(self):
-        admin_user = self.get_superuser()
-        first_level_page = create_page('level1', 'nav_playground.html', 'en')
-        second_level_page_top = create_page('level21', "nav_playground.html", "en",
-                                            created_by=admin_user, published=True, parent=first_level_page)
-        second_level_page_bottom = create_page('level22', "nav_playground.html", "en",
-                                               created_by=admin_user, published=True,
-                                               parent=self.reload(first_level_page))
-        third_level_page = create_page('level3', "nav_playground.html", "en",
-                                       created_by=admin_user, published=True, parent=second_level_page_top)
-        self.assertEqual(Page.objects.all().count(), 4)
-
-        with self.login_user_context(admin_user):
-            response = self.client.get(self.get_admin_url(Page, 'changelist'))
-            cms_page_nodes = response.context_data['tree']['items']
-            self.assertEqual(cms_page_nodes[0], first_level_page)
-            self.assertEqual(cms_page_nodes[1], second_level_page_top)
-            self.assertEqual(cms_page_nodes[2], third_level_page)
-            self.assertEqual(cms_page_nodes[3], second_level_page_bottom)
-
-    def test_changelist_get_results(self):
-        admin_user = self.get_superuser()
-        first_level_page = create_page(
-            'level1', 'nav_playground.html', 'en', published=True
-        )
-        second_level_page_top = create_page(
-            'level21', "nav_playground.html", "en",
-            created_by=admin_user, published=True, parent=first_level_page
-        )
-        second_level_page_bottom = create_page(  # noqa
-            'level22', "nav_playground.html", "en",
-            created_by=admin_user, published=True, parent=self.reload(first_level_page)
-        )
-        third_level_page = create_page(  # noqa
-            'level3', "nav_playground.html", "en",
-            created_by=admin_user, published=True, parent=second_level_page_top
-        )
-        fourth_level_page = create_page(  # noqa
-            'level23', "nav_playground.html", "en",
-            created_by=admin_user, parent=self.reload(first_level_page)
-        )
-        self.assertEqual(Page.objects.all().count(), 9)
-        endpoint = self.get_admin_url(Page, 'changelist')
-
-        with self.login_user_context(admin_user):
-            response = self.client.get(endpoint)
-            self.assertEqual(response.context_data['tree']['items'].count(), 5)
-
-        with self.login_user_context(admin_user):
-            response = self.client.get(endpoint + '?q=level23')
-            self.assertEqual(response.context_data['tree']['items'].count(), 1)
-
-        with self.login_user_context(admin_user):
-            response = self.client.get(endpoint + '?q=level2')
-            self.assertEqual(response.context_data['tree']['items'].count(), 3)
-
     def test_unihandecode_doesnt_break_404_in_admin(self):
         self.get_superuser()
 
@@ -1088,7 +1032,7 @@ class AdminFormsTests(AdminTestsBase):
 
         user = self.get_superuser()
         with self.login_user_context(user):
-            with self.assertNumQueries(9):
+            with self.assertNumQueries(8):
                 force_str(self.client.get(self.get_admin_url(Page, 'changelist')))
 
     def test_smart_link_published_pages(self):

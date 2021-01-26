@@ -1212,3 +1212,15 @@ default
 
 This indicates to the CMS that it should redirect requests with an non-lowercase
 slug to its lowercase version if no page with that slug is found.
+
+..  setting:: CMS_PAGETREE_DESCENDANTS_LIMIT
+
+PAGETREE_DESCENDANTS_LIMIT
+===================================
+
+default
+    ``float('inf')``
+
+A limit that prevents a node from being unfoldable if it contains too many
+descendants. This setting can be useful for sites with a very large tree
+structure to avoid performance drawbacks.

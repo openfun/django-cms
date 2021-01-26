@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ==================
 
+* Add a `CMS_PAGETREE_DESCENDANTS_LIMIT` setting to be able to prevent a
+  pagetree node from being unfoldable if it has too many descendants
 * Make search results foldable
 
 3.9.0 (2021-06-30)

@@ -63,5 +63,11 @@
   },
   "scripts": {
     "upgrade-interactive": "npm-check --update"
+  },
+  "engines": {
+    "node": "^18"
+  },
+  "volta": {
+    "node": "18.20.7"
   }
 }

@@ -19,13 +19,23 @@ Here it is a step by step guide to update the fork when a new release of
 Django CMS 3.x is available.
 
 ```bash
-# Go the branch with the latest changes (e.g: 3.11.10-with-drillable-limit)
+# Go the branch with the latest changes (e.g: 3.11.9-with-drillable-limit)
 # Do a new branch with the latest changes
-git checkout -b 3.11.11-with-drillable-limit
+git checkout -b 3.11.10-with-drillable-limit
 
 # Fetch the latest changes from the upstream repository
 git fetch upstream
 
 # Rebase the local branch on the upstream tag of the release you want to upgrade
-git rebase 3.11.11
+git rebase 3.11.10
+
+# Rebuild front
+npx gulp sass icons bundle
+
+# Commit changes, push and apply a tag on this commit
+git add.
+git commit -m "Rebuild 3.11.10"
+git tag fun-3.11.10
+git push
+git push --tags
 ```
